@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head><script>window.livecodes = window.livecodes || {};</script><title>DeepAI Code Snippet (fork) (fork)</title><meta name="title" content="DeepAI Code Snippet (fork) (fork)"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style id="__livecodes_styles__"></style><script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js" async=""></script><script type="importmap">{
+  "imports": {}
+}</script></head><body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101116">
+<title>Դելֆիի մեթոդ · Հմտությունների ապագան</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Noto+Sans+Armenian:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#101116;--panel:#191a21;--panel2:#23242c;--text:#f4f2ec;
+  --muted:#aaaab4;--line:rgba(255,255,255,.12);--lime:#c9ff70;
+  --purple:#aa91ff;--orange:#ff9e79;--radius:22px;
+  --shadow:0 18px 50px rgba(0,0,0,.22)
+}
+body.light{
+  --bg:#f1f0ea;--panel:#fff;--panel2:#e8e7e0;--text:#17171c;
+  --muted:#696972;--line:rgba(0,0,0,.13);--lime:#517d00;
+  --purple:#6849d1;--orange:#bd4d26;--shadow:0 18px 50px rgba(30,30,30,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,"Noto Sans Armenian",sans-serif;line-height:1.7}
+a{color:inherit}
+button{font:inherit}
+
+.topbar{
+  height:70px;position:fixed;z-index:100;inset:0 0 auto;padding:0 5vw;
+  display:flex;align-items:center;justify-content:space-between;
+  background:color-mix(in srgb,var(--bg) 84%,transparent);
+  backdrop-filter:blur(18px);border-bottom:1px solid var(--line)
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:-.04em}
+.brand-mark{width:29px;height:29px;display:grid;place-items:center;background:var(--lime);color:#111;border-radius:9px}
+.nav{display:flex;align-items:center;gap:18px}
+.nav a{text-decoration:none;color:var(--muted);font-size:11px;transition:.2s}
+.nav a:hover{color:var(--lime)}
+.actions{display:flex;gap:8px}
+.icon-btn,.menu-btn{height:39px;width:39px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:50%;cursor:pointer}
+.menu-btn{display:none}
+.progress{position:fixed;z-index:110;top:69px;left:0;height:2px;background:var(--lime);width:0}
+
+.hero{
+  min-height:91vh;padding:145px 8vw 76px;display:flex;align-items:center;position:relative;
+  background:
+    linear-gradient(90deg,rgba(10,10,14,.94),rgba(10,10,14,.68) 58%,rgba(10,10,14,.2)),
+    linear-gradient(0deg,var(--bg),transparent 30%),
+    url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=85") center/cover
+}
+.hero-copy{max-width:850px;position:relative}
+.eyebrow{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--lime);font-weight:800}
+h1{font-size:clamp(43px,7vw,88px);line-height:1.02;letter-spacing:-.07em;margin:17px 0}
+h1 span{color:var(--lime)}
+.hero p{color:#d6d4dc;max-width:680px;font-size:clamp(15px,1.6vw,19px)}
+.pills,.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.pill{padding:7px 12px;border:1px solid rgba(255,255,255,.28);border-radius:99px;color:#eee;font-size:11px}
+.btn{border:0;border-radius:99px;padding:12px 17px;display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-size:12px;font-weight:800;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--lime);color:#101116}
+.btn-secondary{background:var(--panel);color:var(--text);border:1px solid var(--line)}
+
+section{padding:88px 8vw}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:30px}
+.section-head h2{font-size:clamp(30px,4vw,51px);letter-spacing:-.06em;line-height:1.12;margin:8px 0 0}
+.section-head p{max-width:450px;color:var(--muted);margin:0;font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.card{padding:23px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);box-shadow:var(--shadow)}
+.card h3{font-size:17px;line-height:1.35;margin:7px 0 10px}
+.card p,.card li{font-size:13px;color:var(--muted)}
+.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);font-weight:800}
+.big-number{font-size:41px;font-weight:800;color:var(--lime);letter-spacing:-.07em}
+.highlight{background:var(--lime);color:#12140e}
+.highlight p,.highlight .kicker{color:#374020}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
+.step{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:15px}
+.step b{display:block;color:var(--lime);font-size:10px}
+.step span{font-weight:700;font-size:12px}
+.warning{border:1px solid color-mix(in srgb,var(--orange) 45%,transparent);background:color-mix(in srgb,var(--orange) 8%,var(--panel));padding:14px 17px;border-radius:14px;color:var(--orange);font-size:12px}
+.method-bg{
+  background:linear-gradient(110deg,color-mix(in srgb,var(--bg) 8%,transparent),var(--bg) 95%),
+  url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80") center/cover
+}
+.person-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.person-link{padding:15px;background:var(--panel);border:1px solid var(--line);border-radius:15px;text-decoration:none;transition:.2s}
+.person-link:hover{transform:translateY(-3px);border-color:var(--lime)}
+.person-link small{display:block;color:var(--lime);font-size:9px;font-weight:800}
+.person-link b{display:block;font-size:12px;margin-top:5px}
+.person-link span{display:block;color:var(--muted);font-size:10px}
+.person-section{padding-top:70px}
+.person-hero{
+  height:330px;position:relative;display:flex;align-items:end;padding:27px;overflow:hidden;
+  border-radius:26px;background-size:cover;background-position:center;background-color:#34343c;box-shadow:var(--shadow)
+}
+.person-hero:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,5,8,.9),rgba(5,5,8,.03) 80%)}
+.person-heading{position:relative;z-index:1}
+.person-heading h2{margin:3px 0;font-size:clamp(28px,4vw,45px);letter-spacing:-.06em;line-height:1.12}
+.person-heading p{color:#ddd;margin:0;font-size:13px}
+.company-link{display:inline-flex;margin-top:11px;border:1px solid rgba(255,255,255,.36);padding:6px 10px;border-radius:99px;text-decoration:none;font-size:10px;color:#fff}
+.person-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0 12px}
+.person-tab{background:var(--panel);color:var(--muted);border:1px solid var(--line);padding:9px 13px;border-radius:99px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+.person-tab.active,.person-tab:hover{background:var(--lime);color:#111;border-color:var(--lime)}
+.person-page{display:none;animation:rise .28s ease}
+.person-page.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.person-page-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.quote{font-size:18px;color:var(--text);border-left:3px solid var(--lime);padding-left:15px;margin:8px 0 17px}
+details{border-top:1px solid var(--line);padding:12px 0}
+summary{font-size:12px;font-weight:800;cursor:pointer}
+details p{margin:7px 0 0}
+.tag-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tag{background:var(--panel2);border-radius:99px;padding:6px 9px;font-size:10px}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.skill{display:flex;gap:10px;align-items:center;padding:11px;background:var(--panel);border:1px solid var(--line);border-radius:13px}
+.skill-code{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;background:var(--lime);color:#111;border-radius:10px;font-size:10px;font-weight:900}
+.skill b{display:block;font-size:11px}
+.skill small{display:block;color:var(--muted);font-size:9px}
+.switches{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
+.switches button{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:8px 12px;border-radius:99px;cursor:pointer;font-size:10px}
+.switches button.active{background:var(--lime);color:#111;border-color:var(--lime)}
+.chart{display:grid;gap:12px}
+.chart-row{display:grid;grid-template-columns:minmax(180px,1.2fr) 2fr 55px;gap:13px;align-items:center}
+.chart-name{font-size:11px}
+.track{height:11px;background:var(--panel2);border-radius:99px;overflow:hidden}
+.bar{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--lime));transition:width .7s}
+.score{text-align:right;color:var(--lime);font-size:11px;font-weight:800}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;margin:14px 0}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:10px}
+th,td{padding:9px 10px;text-align:center;border-bottom:1px solid var(--line)}
+th{position:sticky;top:0;background:var(--panel2);color:var(--lime)}
+th:first-child,td:first-child{text-align:left}
+
+.recommendation-section{background:radial-gradient(circle at 85% 15%,rgba(170,145,255,.12),transparent 35%),var(--bg)}
+.company-picker{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0}
+.company-button{padding:10px 15px;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:99px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+.company-button:hover,.company-button.active{background:var(--lime);border-color:var(--lime);color:#111;transform:translateY(-2px)}
+.recommendation-card{display:grid;grid-template-columns:260px 1fr;min-height:310px;overflow:hidden;padding:0}
+.recommendation-visual{position:relative;min-height:280px;background-size:cover;background-position:center}
+.recommendation-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 70%)}
+.visual-label{position:absolute;z-index:1;left:18px;bottom:15px;color:#fff;font-size:11px;font-weight:800}
+.recommendation-content{padding:25px}
+.recommendation-meta{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.meta-chip{padding:6px 9px;background:var(--panel2);border-radius:99px;color:var(--muted);font-size:10px}
+.recommendation-content h3{font-size:24px;margin:4px 0}
+.recommendation-content .proposal{font-size:14px;color:var(--text);margin-top:17px}
+.recommendation-content .context{font-size:12px;color:var(--muted)}
+.rec-controls{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:15px}
+.rec-controls button{padding:9px 12px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:99px;cursor:pointer;font-size:10px}
+.rec-count{font-size:10px;color:var(--muted)}
+.conclusion{padding:clamp(25px,5vw,50px);border:1px solid var(--line);border-radius:27px;background:linear-gradient(130deg,rgba(170,145,255,.13),rgba(201,255,112,.1)),var(--panel)}
+.conclusion h2{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.06em;max-width:900px}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}
+.pillar{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:15px;font-size:12px}
+.pillar b{display:block;color:var(--lime);margin-bottom:5px}
+.refs{columns:2;color:var(--muted);font-size:11px}
+.refs li{break-inside:avoid;margin:0 0 12px}
+.refs a{color:var(--purple);overflow-wrap:anywhere}
+footer{display:flex;justify-content:space-between;gap:15px;padding:25px 8vw;border-top:1px solid var(--line);color:var(--muted);font-size:10px}
+.fade{opacity:0;transform:translateY(12px);transition:.6s}
+.fade.visible{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .nav{display:none;position:absolute;top:70px;left:0;right:0;padding:16px 6vw;background:var(--bg);border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .nav.open{display:flex}.menu-btn{display:block}
+  .timeline{grid-template-columns:repeat(2,1fr)}
+  .person-nav{grid-template-columns:repeat(2,1fr)}
+  .recommendation-card{grid-template-columns:210px 1fr}
+}
+@media(max-width:650px){
+  section{padding:67px 6vw}.hero{padding:130px 6vw 60px}
+  .section-head{display:block}.section-head p{margin-top:13px}
+  .grid2,.person-page-grid{grid-template-columns:1fr}
+  .person-hero{height:285px;padding:20px}
+  .skill-grid{grid-template-columns:1fr}
+  .chart-row{grid-template-columns:1fr 48px}
+  .track{grid-column:1/-1;grid-row:2}
+  .score{grid-column:2;grid-row:1}
+  .pillars{grid-template-columns:1fr}.refs{columns:1}
+  footer{display:block}
+  .recommendation-card{grid-template-columns:1fr}
+  .recommendation-visual{min-height:190px}
+  .recommendation-content{padding:19px}
+}
+</style>
+
+
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <a class="brand" href="#home"><span class="brand-mark">Δ</span>ՀՄՏՈՒԹՅՈՒՆՆԵՐԻ ԱՊԱԳԱՆ</a>
+  <nav class="nav" id="nav">
+    <a href="#research">Հետազոտություն</a>
+    <a href="#method">Մեթոդ</a>
+    <a href="#team">Մասնակիցներ</a>
+    <a href="#results">Արդյունքներ</a>
+    <a href="#recommendations">Առաջարկություններ</a>
+    <a href="#conclusion">Եզրակացություն</a>
+  </nav>
+  <div class="actions">
+  <button class="icon-btn" id="fullscreen" aria-label="Միացնել ամբողջ էկրանով ցուցադրումը" title="Ամբողջ էկրան">⛶</button>
+  <button class="icon-btn" id="theme" aria-label="Փոխել թեման">☼</button>
+  <button class="menu-btn" id="menu" aria-label="Բացել ցանկը">☰</button>
+</div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="hero-copy">
+      <div class="eyebrow">Խմբային հետազոտություն · Դելֆիի մեթոդ</div>
+      <h1>Միջին օղակի ղեկավարի<br><span>ապագա հմտությունները</span></h1>
+      <p>Առաջիկա հինգ տարում ո՞ր հմտություններն են դառնալու ամենապահանջվածը ՀՀ ընկերությունների միջին օղակի ղեկավարների համար։ Ութ մասնակից, ութ ոլորտ և երկփուլ փորձագիտական մոդելավորում։</p>
+      <div class="pills"><span class="pill">2027–2031</span><span class="pill">8 մասնակից</span><span class="pill">8 ընկերություն</span><span class="pill">10 հմտություն</span></div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#research">Սկսել ուսումնասիրությունը ↓</a>
+        <a class="btn btn-secondary" href="#team">Ծանոթանալ թիմին</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="research">
+    <div class="section-head fade">
+      <div><div class="eyebrow">01 · Հետազոտության հիմքը</div><h2>Ինչո՞ւ ենք հարց տալիս<br>հենց հիմա։</h2></div>
+      <p>Թվայնացումը, տվյալների աճը և աշխատանքային գործընթացների փոփոխությունը վերաձևավորում են ղեկավարի դերը։</p>
+    </div>
+    <div class="grid2 fade">
+      <article class="card"><div class="kicker">Խնդիրը</div><h3>Ապագա պահանջարկը հստակ չէ</h3><p>Պարզ չէ, թե 2027–2031 թթ. ՀՀ միջին օղակի ղեկավարների համար հատկապես որ տեխնոլոգիական, վերլուծական և միջանձնային հմտություններն են լինելու առաջնային։</p></article>
+      <article class="card highlight"><div class="kicker">Նպատակը</div><h3>Գնահատումից՝ գործնական առաջարկություն</h3><p>Տարբեր ոլորտների գնահատումների հիման վրա դասակարգել հմտությունները և առաջարկել ղեկավարների զարգացման կիրառելի ուղղություններ։</p></article>
+      <article class="card"><div class="big-number">39%</div><div class="kicker">WEF · 2025</div><p>Մինչև 2030 թվականը աշխատողների առկա հմտությունների միջինում 39%-ը կարող է փոխվել կամ հնանալ։</p></article>
+      <article class="card"><div class="big-number">60%+</div><div class="kicker">Համաշխարհային բանկ · Հայաստան</div><p>ՀՀ ընկերությունների ավելի քան 60%-ը ժամանակակից տեխնոլոգիաներ չի ներդրել՝ ըստ ուսումնասիրության ամփոփման։</p></article>
+    </div>
+    <div class="timeline fade">
+      <div class="step"><b>01 · ՀԱՐՑ</b><span>Ի՞նչ ենք ուզում կանխատեսել</span></div>
+      <div class="step"><b>02 · ՓՈՐՁԱԳԵՏՆԵՐ</b><span>Ոլորտային բազմազանություն</span></div>
+      <div class="step"><b>03 · ԵՐԿՈՒ ՓՈՒԼ</b><span>Գնահատում և հետադարձ կապ</span></div>
+      <div class="step"><b>04 · ԳՈՐԾՈՂՈՒԹՅՈՒՆ</b><span>Ուսուցում ու զարգացում</span></div>
+    </div>
+  </section>
+
+  <section class="method-bg" id="method">
+    <div class="section-head fade">
+      <div><div class="eyebrow">02 · Մեթոդաբանություն</div><h2>Դելֆի․ կարծիքներից<br>դեպի համակարգված պատկեր։</h2></div>
+      <p>Փորձագետներն սկզբում պատասխանում են անկախ, ապա տեսնում անանուն ամփոփումը և կարող են վերանայել գնահատականները։</p>
+    </div>
+    <div class="grid2 fade">
+      <article class="card">
+        <div class="kicker">Ինչու ընտրեցինք Դելֆին</div>
+        <details open=""><summary>Ապագայի անորոշություն</summary><p>Հինգ տարի անց հմտությունների պահանջարկը հնարավոր չէ ուղղակիորեն դիտարկել․ փորձագիտական գնահատումը լրացուցիչ գործիք է։</p></details>
+        <details><summary>Անկախ պատասխաններ</summary><p>Մասնակիցները գնահատում են անհատապես, որպեսզի որևէ մեկը չուղղորդի խմբի կարծիքը։</p></details>
+        <details><summary>Սահմանափակումներ</summary><p>Փոքր դերային խումբը ներկայացուցչական չէ, իսկ համաձայնությունը չի ապացուցում կանխատեսման ճշմարտացիությունը։</p></details>
+      </article>
+      <article class="card">
+        <div class="kicker">Գործընթացը</div>
+        <div class="timeline" style="grid-template-columns:1fr 1fr">
+          <div class="step"><b>ՓՈՒԼ I</b><span>Անկախ գնահատում՝ 1–5</span></div>
+          <div class="step"><b>ԱՄՓՈՓՈՒՄ</b><span>Միջին, մեդիան, բարձր %</span></div>
+          <div class="step"><b>ՀԵՏԱԴԱՐՁ ԿԱՊ</b><span>Անանուն խմբային արդյունք</span></div>
+          <div class="step"><b>ՓՈՒԼ II</b><span>Կրկնակի գնահատում</span></div>
+        </div>
+        <p>Համաձայնության շեմ՝ առնվազն 7/8 մասնակցի 4 կամ 5 միավոր (87.5%)։</p>
+      </article>
+    </div>
+    <p class="warning" style="margin-top:16px"><b>Կարևոր․</b> հարցման գնահատականները մոդելավորված են և չեն վերագրվում նշված ընկերությունների իրական ղեկավարներին։</p>
+  </section>
+
+  <section id="team">
+    <div class="section-head fade">
+      <div><div class="eyebrow">03 · Թիմը և ոլորտները</div><h2>Ընտրեք մասնակցին<br>և ուսումնասիրեք նրա բաժինը։</h2></div>
+      <p>Յուրաքանչյուր մասնակցի էջում ներկայացված են հետազոտության համապատասխան փուլը, ոլորտային համատեքստը և գործնական առաջարկությունները։</p>
+    </div>
+    <div class="person-nav fade" id="personNav"></div>
+  </section>
+
+  <div id="people"></div>
+
+  <section id="skills">
+    <div class="section-head fade">
+      <div><div class="eyebrow">04 · Գնահատման գործիք</div><h2>Տասը հմտություն՝<br>մեկ սանդղակով։</h2></div>
+      <p>Յուրաքանչյուր հմտությունը գնահատվել է 1-ից 5 միավորով՝ 2027–2031 թթ. սպասվող պահանջվածության տեսանկյունից։</p>
+    </div>
+    <div class="skill-grid fade" id="skillGrid"></div>
+  </section>
+
+  <section id="results">
+    <div class="section-head fade">
+      <div><div class="eyebrow">05 · Մոդելավորված արդյունքներ</div><h2>Ի՞նչ փոխվեց<br>երկրորդ փուլում։</h2></div>
+      <p>Փոխեք ցուցադրվող չափանիշը կոճակներով․ գրաֆիկներն ու աղյուսակները հաշվարկվում են մոդելավորված գնահատականներից։</p>
+    </div>
+    <article class="card fade">
+      <div class="switches">
+        <button class="result-btn active" data-mode="first">Փուլ I · միջին</button>
+        <button class="result-btn" data-mode="second">Փուլ II · միջին</button>
+        <button class="result-btn" data-mode="percent">Փուլ II · բարձր %</button>
+      </div>
+      <div class="chart" id="chart"></div>
+    </article>
+    <article class="card fade" style="margin-top:15px">
+      <div class="kicker">Համեմատական ամփոփում</div>
+      <div class="table-wrap"><table><thead><tr><th>Հմտություն</th><th>I միջ.</th><th>II միջ.</th><th>II մեդ.</th><th>II բարձր %</th><th>Շեմ</th></tr></thead><tbody id="summary"></tbody></table></div>
+      <p class="kicker">Բարձր գնահատական = 4 կամ 5 · Շեմ = առնվազն 7/8։</p>
+    </article>
+    <article class="card fade" style="margin-top:15px">
+      <div class="kicker">Մոդելավորված անհատական պատասխաններ</div>
+      <div class="switches"><button class="raw-btn active" data-phase="1">Փուլ I</button><button class="raw-btn" data-phase="2">Փուլ II</button></div>
+      <div class="table-wrap"><table id="rawTable"></table></div>
+    </article>
+    <p class="warning" style="margin-top:15px">Թվերը ուսումնական մոդելավորում են, ոչ թե ՀՀ ընկերությունների ղեկավարների իրական հարցման արդյունքներ։</p>
+  </section>
+
+  <section class="recommendation-section" id="recommendations">
+    <div class="section-head fade">
+      <div><div class="eyebrow">06 · Ինտերակտիվ առաջարկություններ</div><h2>Ընտրեք ընկերությունը<br>և տեսեք առաջարկը։</h2></div>
+      <p>Ընտրեք ընկերության կոճակը․ քարտում կցուցադրվեն մասնակցի անունը, պաշտոնը և տվյալ ոլորտի առաջարկությունը։</p>
+    </div>
+    <div class="company-picker fade" id="companyPicker" aria-label="Ընտրել ընկերությունը"></div>
+    <article class="card recommendation-card fade" id="recommendationCard" aria-live="polite">
+      <div class="recommendation-visual" id="recImage"><span class="visual-label" id="recCompanyLabel"></span></div>
+      <div class="recommendation-content">
+        <div class="kicker">Ընկերության զարգացման առաջարկ</div>
+        <h3 id="recCompany"></h3>
+        <div class="recommendation-meta">
+          <span class="meta-chip" id="recParticipant"></span>
+          <span class="meta-chip" id="recRole"></span>
+        </div>
+        <p class="proposal" id="recProposal"></p>
+        <p class="context" id="recContext"></p>
+        <div class="rec-controls">
+          <button id="prevCompany" type="button">← Նախորդ</button>
+          <span class="rec-count" id="recCount"></span>
+          <button id="nextCompany" type="button">Հաջորդ →</button>
+        </div>
+      </div>
+    </article>
+    <p class="warning" style="margin-top:15px">Պատկերները ոլորտային են և ընկերությունների պաշտոնական լոգոներ չեն։ Առաջարկությունները ուսումնական աշխատանքի մաս են։</p>
+  </section>
+
+  <section id="conclusion">
+    <div class="conclusion fade">
+      <div class="eyebrow">07 · Վերջնական եզրակացություն</div>
+      <h2>Ապագայի արդյունավետ ղեկավարը միավորում է տեխնոլոգիան, տվյալները և մարդկանց։</h2>
+      <p style="max-width:800px;color:var(--muted)">Մոդելավորված գնահատումներում բարձր են վերլուծական մտածողության, առաջնորդության, խնդիրների լուծման, փոփոխությունների կառավարման և թվային գրագիտության գնահատականները։</p>
+      <div class="pillars">
+        <div class="pillar"><b>01 · ՏԵԽՆՈԼՈԳԻԱ</b>Հասկանալ և պատասխանատու կիրառել թվային ու ԱԲ գործիքները։</div>
+        <div class="pillar"><b>02 · ՏՎՅԱԼՆԵՐ</b>Վերլուծել տեղեկատվությունը և հիմնավորված որոշումներ կայացնել։</div>
+        <div class="pillar"><b>03 · ՄԱՐԴԻԿ</b>Առաջնորդել թիմը, հաղորդակցվել և կազմակերպել փոփոխությունը։</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <div class="section-head"><div><div class="eyebrow">Հղումներ</div><h2>Օգտագործված աղբյուրներ</h2></div></div>
+    <ol class="refs">
+      <li>World Economic Forum (2025), <i>Future of Jobs Report 2025</i>. <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank" rel="noopener">weforum.org</a></li>
+      <li>World Bank, <i>Armenia’s Digital Technology Adoption by Firms</i>. <a href="https://www.worldbank.org/en/country/armenia/publication/armenia-s-digital-technology-adoption-by-firms" target="_blank" rel="noopener">worldbank.org</a></li>
+      <li>OECD (2024), <i>Advancing the Digital Transformation of Armenian Businesses</i>. <a href="https://www.oecd.org/en/publications/advancing-the-digital-transformation-of-armenian-businesses_11515617-en.html" target="_blank" rel="noopener">oecd.org</a></li>
+      <li>RAND Corporation, <i>Methodological Guidance for Conducting and Critically Appraising Delphi Panels</i>. <a href="https://www.rand.org/pubs/tools/TLA3082-1.html" target="_blank" rel="noopener">rand.org</a></li>
+      <li>Զանգեզուրի պղնձամոլիբդենային կոմբինատ։ <a href="https://www.zcmc.am/en/about/" target="_blank" rel="noopener">zcmc.am</a></li>
+      <li>Պաշտոնական կայքեր՝
+        <a href="https://ameriabank.am/" target="_blank" rel="noopener">Ամերիաբանկ</a>,
+        <a href="https://grandcandy.am/" target="_blank" rel="noopener">Grand Candy</a>,
+        <a href="https://www.telecomarmenia.am/" target="_blank" rel="noopener">Team Telecom</a>,
+        <a href="https://www.sas.am/" target="_blank" rel="noopener">SAS</a>,
+        <a href="https://picsart.com/" target="_blank" rel="noopener">Picsart</a>,
+        <a href="https://www.spayka.am/" target="_blank" rel="noopener">Սպայկա</a>,
+        <a href="https://araratbrandy.com/" target="_blank" rel="noopener">ARARAT</a>։
+      </li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  <span>Դելֆիի մեթոդ · Խմբային ուսումնական աշխատանք · 2027–2031</span>
+  <span>Ինտերակտիվ ներկայացում</span>
+</footer>
+
+<script>
+const people=[
+{
+ id:"eduarda",name:"Էդուարդա Գրիգորյան",company:"Ամերիաբանկ",
+ role:"Հաճախորդների սպասարկման ստորաբաժանման ղեկավար",
+ area:"1 · Խնդրի ձևակերպում",url:"https://ameriabank.am/",
+ image:"https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1600&q=85",
+ situation:"Բանկի հաճախորդներն ավելի հաճախ են օգտվում հեռավար ծառայություններից, իսկ մասնաճյուղ են այցելում առավել բարդ խնդիրներով։ Սպասարկման ստորաբաժանման ղեկավարը կազմակերպում է թիմի աշխատանքը, հետևում սպասարկման որակին և արձագանքում հաճախորդների խնդիրներին։ Թվային ծառայությունների զարգացման պայմաններում նա պետք է կարողանա վերլուծել սպասարկման տվյալները, հարմարեցնել աշխատակիցների պարտականությունները և աջակցել նոր գործիքների ներդրմանը։",
+ quote:"Արդյո՞ք այն հմտությունները, որոնցով ղեկավարը հաջողությամբ աշխատում է այսօր, բավարար կլինեն նաև հինգ տարի անց։",
+ contribution:"Հետազոտական խնդիրը՝ պարզ չէ, թե 2027–2031 թթ. ՀՀ ընկերությունների միջին օղակի ղեկավարների համար որ տեխնոլոգիական, վերլուծական ու միջանձնային հմտություններն են առավել պահանջված լինելու, և որքանով են առաջնահերթությունները տարբեր ոլորտներում։ Հետազոտության նպատակն է փորձագիտական գնահատումների հիման վրա դասակարգել ապագա հմտությունները և մշակել զարգացման գործնական առաջարկություններ։",
+ practical:"Հիմնական հետազոտական հարցը՝ «Առաջիկա հինգ տարում ո՞ր հմտություններն են լինելու ամենապահանջվածը ՀՀ ընկերությունների միջին օղակի ղեկավարների համար»։ Հետազոտության քայլերն են՝ ուսումնասիրել միտումները, կազմել հմտությունների ցանկ, հավաքել երկու փուլով գնահատականներ, համեմատել արդյունքները և առաջարկություններ մշակել։",
+ recommendation:"Կազմակերպել սպասարկման տվյալների և կառավարման վահանակների կիրառման ուսուցում։ Զարգացնել որակի ցուցանիշների վերլուծությունը և տվյալների հիման վրա հերթափոխերի ու պարտականությունների պլանավորումը։",
+ recContext:"Առաջարկությունը կապվում է հեռավար սպասարկման աճի և թվային գործիքների ներդրման ուսումնական իրավիճակի հետ։",
+ tags:["Խնդրի ձևակերպում","Հետազոտության նպատակ","Տվյալահեն սպասարկում"]
+},
+{
+ id:"anahit1",name:"Անահիտ Չախլազյան",company:"Grand Candy",
+ role:"Արտադրամասի ղեկավար",area:"2 · Մեթոդի հիմնավորում",
+ url:"https://grandcandy.am/",
+ image:"https://images.unsplash.com/photo-1581798459219-318e76aecc7b?auto=format&fit=crop&w=1600&q=85",
+ situation:"Արտադրամասում թվային վերահսկմամբ նոր սարքավորման ներդրումը կարող է արագացնել արտադրությունը, բայց նաև պահանջել աշխատակիցների վերապատրաստում։ Ղեկավարը պետք է կազմակերպի անվտանգ անցումը, հերթափոխերի աշխատանքը և արտադրանքի որակի վերահսկումը՝ միաժամանակ աջակցելով թիմին փոփոխության ընթացքում։",
+ quote:"Արտադրության նոր տեխնոլոգիան արդյունավետ է, երբ տեխնիկական ներդրմանը զուգահեռ պատրաստվում է նաև թիմը։",
+ contribution:"Դելֆիի մեթոդը փորձագիտական գնահատումների բազմափուլ կառուցվածքային եղանակ է։ Մասնակիցներն սկզբում անկախ գնահատում են նույն հարցերը, այնուհետև ծանոթանում անանուն խմբային ամփոփմանը և կարող են վերանայել իրենց գնահատականները։",
+ practical:"Մեթոդն ընտրվել է, քանի որ 2031 թվականի պահանջարկի մասին ամբողջական տվյալներ դեռ չկան, ոլորտների պահանջները տարբեր են, իսկ անհատական պատասխանների անանուն պահպանումը նվազեցնում է խմբային ազդեցությունը։ Մեթոդի սահմանափակումն այն է, որ փորձագետների համաձայնությունը չի երաշխավորում կանխատեսման ճշգրտությունը։ Մեր ութ մասնակիցների գնահատականները ուսումնական մոդելավորում են, ոչ թե իրական հարցման արդյունք։",
+ recommendation:"Նոր սարքավորումների ներդրման ժամանակ կազմակերպել ղեկավարների և աշխատակիցների համատեղ վերապատրաստում։ Ուսուցման մեջ ներառել անվտանգ շահագործումը, որակի վերահսկումը, հերթափոխերի կազմակերպումը և փոփոխությունների հաղորդակցումը։",
+ recContext:"Տեխնոլոգիական փոփոխությունը պետք է կատարվի առանց արտադրանքի որակի կամ աշխատակիցների անվտանգության անկման։",
+ tags:["Մեթոդի հիմնավորում","Երկփուլ փորձագիտական գնահատում","Փոփոխությունների կառավարում"]
+},
+{
+ id:"syoma",name:"Սյոմա Ալեքյան",company:"Team Telecom Armenia",
+ role:"Տարածքային սպասարկման ղեկավար",area:"3 · Փորձագիտական խմբի ձևավորում",
+ url:"https://www.telecomarmenia.am/",
+ image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1600&q=85",
+ situation:"Հեռահաղորդակցության ոլորտում նոր ցանցերի, թվային համակարգերի և սպասարկման լուծումների ներդրումը պահանջում է աշխատակիցների շարունակական ուսուցում։ Տարածքային սպասարկման ղեկավարը պետք է կազմակերպի նոր համակարգի կիրառումը՝ հաշվի առնելով թիմի անդամների տարբեր պատրաստվածությունը և պահպանելով ծառայության որակը։",
+ quote:"Տարբեր ոլորտների փորձը թույլ է տալիս նույն ապագա խնդիրը դիտարկել մի քանի մասնագիտական տեսանկյունից։",
+ contribution:"Ուսումնական փորձագիտական խումբը կազմված է ութ մասնակցից, որոնք ներկայացնում են ութ հայկական ընկերությունների միջին օղակի ղեկավարների դերեր։ Խումբը ձևավորվել է ոլորտային բազմազանության սկզբունքով, իսկ պատասխանները ներկայացվում են Փ1–Փ8 կոդերով։",
+ practical:"Իրական հարցման դեպքում մասնակիցներին պետք է ընտրել մասնագիտական փորձի, ոլորտի իմացության, թիմ ղեկավարելու փորձի և երկու փուլերին մասնակցելու պատրաստակամության հիման վրա։ Քանի որ յուրաքանչյուր ոլորտ ներկայացված է մեկ մասնակցով, արդյունքները չեն կարող համարվել ՀՀ ընկերությունների ներկայացուցչական կարծիք։",
+ recommendation:"Անցկացնել թիմերի ղեկավարման, հաղորդակցման և փոփոխություններին հարմարվելու գործնական վարժանքներ։ Նոր ծառայություն կամ համակարգ ներդնելիս ներառել աշխատակիցների հետադարձ կապի և կարճ ուսուցման փուլ։",
+ recContext:"Առաջարկությունը համապատասխանում է նոր թվային համակարգի ներդրման և աշխատակիցների պատրաստվածության տարբերության ուսումնական սցենարին։",
+ tags:["Փորձագիտական խումբ","Ոլորտային բազմազանություն","Անանուն գնահատումներ"]
+},
+{
+ id:"alla",name:"Ալլա Վարդանյան",company:"SAS Group",
+ role:"Խանութի գործառնական ղեկավար",area:"4 · Տեղեկատվական ապահովում",
+ url:"https://www.sas.am/",
+ image:"https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=85",
+ situation:"Մանրածախ առևտրում որոշ ապրանքների պահանջարկը կարող է արագ փոխվել․ խանութում երբեմն պակաս է առաջանում, երբեմն՝ ավելցուկ։ Գործառնական ղեկավարը պլանավորում է պաշարները, անձնակազմի հերթափոխերը և սպասարկման ընթացքը։ Տվյալների վերլուծությունն ու թվային վերահսկումը կարող են աջակցել ավելի հիմնավորված որոշումների կայացմանը։",
+ quote:"Գործառնական որոշումներն ավելի հիմնավորված են, երբ կառավարչի փորձը լրացվում է տվյալներով։",
+ contribution:"Հմտությունների նախնական ցանկը ձևավորվել է միջազգային և Հայաստանի վերաբերյալ աղբյուրների ուսումնասիրությամբ։ WEF-ի 2025 թվականի զեկույցն անդրադառնում է վերլուծական մտածողությանը, ճկունությանը, առաջնորդությանը և տեխնոլոգիական գրագիտությանը։ Համաշխարհային բանկի ու OECD-ի նյութերն ընդգծում են ՀՀ բիզնեսների թվայնացման և աշխատակիցների կարողությունների կարևորությունը։",
+ practical:"Հմտությունների նախնական ցանկը հետազոտական վարկած է, ոչ թե պատրաստի եզրակացություն։ Միջազգային միտումները պետք է դիտարկել Հայաստանի պայմանների համատեքստում, իսկ վերջնական առաջնահերթությունները որոշել հարցման արդյունքներով։ Ներկայիս տարածվածությունը նաև նույնը չէ, ինչ ապագա պահանջարկի աճը։",
+ recommendation:"Ներդնել վաճառքի, պաշարների և հերթափոխերի տվյալահեն պլանավորում։ Ղեկավարներին սովորեցնել պահանջարկի փոփոխությունները դիտարկել և պաշարի ու անձնակազմի ռեսուրսները համապատասխանեցնել սպասվող ծանրաբեռնվածությանը։",
+ recContext:"Առաջարկությունը բխում է փոփոխական պահանջարկի և պակասի կամ ավելցուկի կառավարման ուսումնական օրինակից։",
+ tags:["Տեղեկատվական աղբյուրներ","Հմտությունների ընտրություն","Ռեսուրսների պլանավորում"]
+},
+{
+ id:"anahit2",name:"Անահիտ Խաչատրյան",company:"Picsart",
+ role:"Նախագծային թիմի ղեկավար",area:"5 · Չափման ընթացակարգ",
+ url:"https://picsart.com/",
+ image:"https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=85",
+ situation:"Նախագծային թիմի աշխատանքների մի մասը հնարավոր է ավտոմատացնել արհեստական բանականության գործիքներով։ Թիմի ղեկավարը պետք է որոշի, թե որ գործընթացներում կիրառել այդ գործիքները, ինչպես ստուգել արդյունքների որակը և ինչ նոր կարողություններ են անհրաժեշտ աշխատակիցներին։",
+ quote:"ԱԲ գործիքների ներդրումը ղեկավարից պահանջում է թե՛ տեխնոլոգիական կողմնորոշում, թե՛ թիմի աշխատանքի պատասխանատու կազմակերպում։",
+ contribution:"Յուրաքանչյուր մասնակից գնահատել է տասը հմտություն՝ հինգաստիճան Լայքերտի սանդղակով։ Առաջին փուլում պատասխանները լրացվել են անկախ, իսկ երկրորդ փուլից առաջ մասնակիցներին ներկայացվել են խմբի անանուն ամփոփ արդյունքներն ու պատճառաբանությունները։",
+ practical:"Բարձր գնահատական է համարվում 4-ը կամ 5-ը։ Նախապես սահմանված կանոնով հմտությունը բավարարում է համաձայնության շեմին, եթե ութ մասնակիցներից առնվազն յոթը տվել են 4 կամ 5 միավոր։ Սա տվյալ ուսումնական աշխատանքի նախագծային չափանիշն է։ Իրական հարցման դեպքում պետք է գրանցել հարցման անցկացման ժամկետները և մոդելավորված թվերը փոխարինել մասնակիցների փաստացի պատասխաններով։",
+ recommendation:"Կազմել ԱԲ գործիքների պատասխանատու կիրառման ծրագիր։ Ներառել արդյունքի որակի ստուգումը, սխալների հայտնաբերումը, տվյալների անվտանգությունը և թիմի վերապատրաստումը։",
+ recContext:"Առաջարկությունը համապատասխանում է այն իրավիճակին, երբ նախագծային աշխատանքների մի մասը հնարավոր է ավտոմատացնել։",
+ tags:["Հարցման ընթացակարգ","Լայքերտի սանդղակ","ԱԲ գործիքներ"]
+},
+{
+ id:"haykuhi",name:"Հայկուհի Սարգսյան",company:"Սպայկա",
+ role:"Լոգիստիկայի բաժնի ղեկավար",area:"6 · Արդյունքների մշակում",
+ url:"https://www.spayka.am/",
+ image:"https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=85",
+ situation:"Շուտ փչացող ապրանք տեղափոխող բեռնատարը սահմանային ուշացման պատճառով կանգ է առնում։ Լոգիստիկայի ղեկավարը պետք է գնահատի հնարավոր վնասը, դիտարկի այլընտրանքային երթուղիներն ու պահեստավորման պայմանները և որոշի՝ երբ տեղեկացնել հաճախորդին։ Այս իրավիճակում կարևոր են ռիսկերի գնահատումը, տվյալների վերլուծությունը և խնդիրների արագ լուծումը։",
+ quote:"Լոգիստիկայում որոշումները հաճախ պետք է կայացնել սահմանափակ ժամանակում՝ հաշվի առնելով միաժամանակ մի քանի ռիսկ։",
+ contribution:"Գնահատականները մշակվել են երեք ցուցանիշով՝ միջին, մեդիան և 4 կամ 5 միավոր ստացած գնահատականների բաժին։ ԱԲ կիրառման օրինակում առաջին փուլի միջինը 3.63 էր, իսկ բարձր գնահատականների բաժինը՝ 37.5%։ Երկրորդ փուլում միջինը դարձավ 4.25, իսկ բարձր գնահատականների բաժինը՝ 87.5%։",
+ practical:"Երկրորդ փուլում ԱԲ կիրառման գնահատականը հասել է նախապես սահմանված 7/8 համաձայնության շեմին։ Սա ցույց է տալիս միայն, որ մոդելավորված տվյալներում բավարարվել է ընտրված չափանիշը։ Այն չի ապացուցում, որ բոլոր կարծիքները նույնական են կամ կանխատեսումն անպայման ճշգրիտ է։",
+ recommendation:"Կազմակերպել ուշացումների, այլընտրանքային երթուղիների և պահպանման խնդիրների սցենարային վարժանքներ։ Ղեկավարներին սովորեցնել արագ գնահատել ռիսկը և ժամանակին տեղեկացնել գործընկերներին ու հաճախորդներին։",
+ recContext:"Առաջարկությունը հիմնված է ուշացող բեռնատարի ուսումնական իրավիճակի վրա։",
+ tags:["Արդյունքների հաշվարկ","Միջին և մեդիան","Լոգիստիկական ռիսկեր"]
+},
+{
+ id:"robert",name:"Ռոբերտ Ստեփանյան",company:"Զանգեզուրի պղնձամոլիբդենային կոմբինատ",
+ role:"Արտադրական հերթափոխի ղեկավար",area:"7 · Ոլորտային համեմատություն",
+ url:"https://www.zcmc.am/en/about/",
+ image:"https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1600&q=85",
+ situation:"Արտադրական հերթափոխի ղեկավարը պետք է կազմակերպի նոր թվային վերահսկման համակարգի կիրառումը՝ պահպանելով աշխատողների անվտանգությունը և կանխելով սարքավորումների խափանումները։ Այդ համատեքստում մեծ նշանակություն ունեն ռիսկերի կառավարումը, խնդիրների արագ լուծումը և փոփոխությունները թիմին ճիշտ ներկայացնելը։",
+ quote:"Տեխնոլոգիական փոփոխության արդյունքը կարևոր է, բայց արտադրությունում այն պետք է ուղեկցվի անվտանգության և ռիսկերի կանխարգելմամբ։",
+ contribution:"Տարբեր ոլորտներում կարող են առաջնային լինել տարբեր կառավարչական կարողություններ։ Բանկային ծառայություններում կարևոր կարող է լինել հաճախորդների տվյալների վերլուծությունը, արտադրությունում՝ անվտանգ ավտոմատացումը, իսկ հանքարդյունաբերությունում՝ ռիսկերի կանխարգելումը։",
+ practical:"Յուրաքանչյուր ոլորտ մեր մոդելում ներկայացված է մեկ դերային մասնակցով։ Հետևաբար ոլորտային տարբերությունները վիճակագրորեն վստահելի ազդեցություն չեն, այլ քննարկման որակական օրինակներ։ Վերջնական զարգացման ծրագրերը պետք է համադրեն ընդհանուր և տվյալ ոլորտին հատուկ հմտությունները։",
+ recommendation:"Իրականացնել արտադրական ռիսկերի կանխարգելման և թվային վերահսկման գործնական ուսուցում։ Ներառել հնարավոր խափանումների հայտնաբերումը, անվտանգ աշխատանքի ընթացակարգերը և արտակարգ իրավիճակներին արձագանքը։",
+ recContext:"Առաջարկությունը կապվում է թվային համակարգը անվտանգության պահանջները պահպանելով ներդնելու ուսումնական սցենարին։",
+ tags:["Ոլորտային համեմատություն","Արտադրական անվտանգություն","Ռիսկերի կառավարում"]
+},
+{
+ id:"sofya",name:"Սոֆյա Հարոյան",company:"Երևանի կոնյակի գործարան",
+ role:"Անձնակազմի զարգացման ղեկավար",area:"8 · Եզրակացություններ և առաջարկություններ",
+ url:"https://araratbrandy.com/",
+ image:"https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=1600&q=85",
+ situation:"Արտադրական կազմակերպությունում փորձառու աշխատակիցների գիտելիքը պետք է փոխանցվի նոր աշխատակիցներին։ Նոր սերունդը կարող է լավ տիրապետել թվային գործիքներին, բայց դեռ չիմանալ արտադրական աշխատանքի բոլոր նրբությունները։ Անձնակազմի զարգացման ղեկավարի խնդիրն է կազմակերպել ուսուցումն ու փորձի փոխանցումը՝ տեխնոլոգիական փոփոխությունների հետ զուգահեռ։",
+ quote:"Թվային կարողությունները լրացնում են փորձառությունը․ արդյունավետ աշխատանքը պահանջում է նաև հաղորդակցում և գիտելիքի փոխանցում։",
+ contribution:"Հետազոտության ընդհանուր եզրակացությունն այն է, որ ղեկավարի տեխնոլոգիական կարողությունները պետք է զուգակցվեն տվյալահեն որոշումների, առաջնորդության և մարդկանց արդյունավետ կառավարման հետ։ Ոլորտային տարբերությունների պատճառով զարգացման ծրագրերը պետք է հարմարեցվեն կազմակերպության աշխատանքին։",
+ practical:"Առաջարկվում է գնահատել ղեկավարների առկա հմտություններն ու բացերը, դրանց հիման վրա կազմել ոլորտային վերապատրաստման ծրագրեր, ներդնել մենթորություն և վերապատրաստումից հետո գնահատել աշխատանքի գործնական արդյունքները։ Հմտությունների առաջնահերթությունները պետք է պարբերաբար վերանայել։",
+ recommendation:"Ներդնել փորձառու և նոր աշխատակիցների համագործակցության ու գիտելիքի փոխանցման ծրագիր։ Կիրառել մենթորական զույգեր, ներքին ուսուցման հանդիպումներ և հիմնական աշխատանքային գիտելիքի փաստաթղթավորում։",
+ recContext:"Առաջարկությունը պատասխանում է սերնդափոխության և փորձառու աշխատակիցների գիտելիքը պահպանելու ուսումնական իրավիճակին։",
+ tags:["Եզրակացություններ","Մենթորություն","Գիտելիքի փոխանցում"]
+}
+];
+
+const skills=[
+ ["Հ1","Վերլուծական մտածողություն","Տվյալների մեկնաբանում և հիմնավորված որոշում"],
+ ["Հ2","Արհեստական բանականության կիրառում","ԱԲ գործիքների կիրառում և վերահսկում"],
+ ["Հ3","Առաջնորդություն և թիմի կառավարում","Աշխատակիցների ուղղորդում և մոտիվացում"],
+ ["Հ4","Փոփոխությունների կառավարում","Նոր ընթացակարգերի ներդրում"],
+ ["Հ5","Թվային գրագիտություն","Թվային ծրագրերի գործնական օգտագործում"],
+ ["Հ6","Խնդիրների լուծում","Բարդ խնդիրների լուծում"],
+ ["Հ7","Հաղորդակցման հմտություններ","Փոխգործակցություն և բանակցություն"],
+ ["Հ8","Ռիսկերի կառավարում","Ռիսկերի հայտնաբերում և արձագանք"],
+ ["Հ9","Ժամանակի և ռեսուրսների կառավարում","Ժամանակի, բյուջեի և անձնակազմի պլանավորում"],
+ ["Հ10","Մենթորություն և գիտելիքների փոխանցում","Գիտելիքի փոխանցում և աշխատակիցների զարգացում"]
+];
+
+const phase1=[
+ [5,5,4,4,5,5,4,4,4,3],[4,3,5,4,4,5,4,4,5,5],
+ [4,4,5,5,5,4,5,3,4,4],[5,3,4,3,4,5,5,4,5,3],
+ [5,5,4,5,5,4,4,3,3,4],[4,3,4,4,3,5,4,5,5,3],
+ [5,3,4,4,4,5,4,5,4,4],[4,3,5,4,4,4,5,4,4,5]
+];
+const phase2=[
+ [5,5,5,5,5,5,4,5,4,4],[4,4,5,5,5,5,4,4,5,5],
+ [5,5,5,5,5,4,5,4,4,4],[5,4,4,4,5,5,5,4,5,3],
+ [5,5,5,5,5,5,4,4,3,4],[5,4,4,5,4,5,4,5,5,3],
+ [5,4,5,4,4,5,4,5,4,4],[4,3,5,4,4,4,5,4,4,5]
+];
+
+const avg=data=>skills.map((_,i)=>data.reduce((sum,row)=>sum+row[i],0)/data.length);
+const high=data=>skills.map((_,i)=>data.filter(row=>row[i]>=4).length/data.length*100);
+const median=data=>skills.map((_,i)=>{
+  const sorted=data.map(row=>row[i]).sort((a,b)=>a-b);
+  return (sorted[3]+sorted[4])/2;
+});
+const avg1=avg(phase1),avg2=avg(phase2),high2=high(phase2),med2=median(phase2);
+const fmt=n=>Number(n).toFixed(2);
+
+const personNav=document.getElementById("personNav");
+const peopleRoot=document.getElementById("people");
+const tabNames=["Ոլորտային համատեքստ","Հետազոտական փուլ","Գործնական առաջարկներ"];
+
+people.forEach((p,index)=>{
+  personNav.insertAdjacentHTML("beforeend",`
+    <a class="person-link" href="#${p.id}">
+      <small>ՄԱՍՆԱԿԻՑ ${String(index+1).padStart(2,"0")}</small>
+      <b>${p.name} · ${p.company}</b><span>${p.role}</span>
+    </a>`);
+
+  peopleRoot.insertAdjacentHTML("beforeend",`
+    <section class="person-section" id="${p.id}">
+      <div class="person-hero fade" style="background-image:url('${p.image}')">
+        <div class="person-heading">
+          <div class="eyebrow">Մասնակից ${String(index+1).padStart(2,"0")} · ${p.area}</div>
+          <h2>${p.name} · ${p.company}</h2>
+          <p>${p.role}</p>
+          <a class="company-link" href="${p.url}" target="_blank" rel="noopener">Ընկերության պաշտոնական կայք ↗</a>
+        </div>
+      </div>
+      <div class="person-tabs" role="tablist">
+        ${tabNames.map((label,i)=>`<button class="person-tab ${i===0?"active":""}" data-person="${p.id}" data-page="${i}" role="tab">${i+1}. ${label}</button>`).join("")}
+      </div>
+      <div class="person-page active" data-content="${p.id}-0">
+        <div class="person-page-grid">
+          <article class="card"><div class="kicker">Ոլորտի կառավարչական համատեքստ</div><div class="quote">«${p.quote}»</div><p>${p.situation}</p></article>
+          <article class="card"><div class="kicker">Ընկերություն և ներկայացվող դեր</div><h3>${p.company}</h3><p>${p.role}</p><p>Այս ոլորտային օրինակը ներկայացնում է միջին օղակի ղեկավարի հնարավոր աշխատանքային համատեքստը։</p><div class="tag-list">${p.tags.map(tag=>`<span class="tag">${tag}</span>`).join("")}</div></article>
+        </div>
+      </div>
+      <div class="person-page" data-content="${p.id}-1">
+        <div class="person-page-grid">
+          <article class="card"><div class="kicker">Հետազոտության այս փուլի բովանդակությունը</div><h3>${p.area.split("·")[1]}</h3><p>${p.contribution}</p></article>
+          <article class="card"><div class="kicker">Հետազոտության ընդհանուր հաջորդականությունը</div><p>Խնդրի ձևակերպում → Դելֆիի մեթոդի հիմնավորում → փորձագիտական խմբի ձևավորում → աղբյուրների ուսումնասիրություն և հմտությունների ընտրություն → երկփուլ հարցում → հաշվարկներ → ոլորտային մեկնաբանություն → առաջարկություններ։</p><div class="tag-list">${p.tags.map(tag=>`<span class="tag">${tag}</span>`).join("")}</div></article>
+        </div>
+      </div>
+      <div class="person-page" data-content="${p.id}-2">
+        <div class="person-page-grid">
+          <article class="card"><div class="kicker">Հիմնական դիտարկում</div><h3>Ինչ է ցույց տալիս այս փուլը</h3><p>${p.practical}</p></article>
+          <article class="card"><div class="kicker">Ոլորտին համապատասխան զարգացման քայլ</div><p>${p.recommendation}</p><a class="btn btn-secondary" href="#recommendations">Դիտել ընկերությունների առաջարկները ↘</a></article>
+        </div>
+      </div>
+    </section>`);
+});
+
+document.addEventListener("click",event=>{
+  const tab=event.target.closest(".person-tab");
+  if(!tab)return;
+  const id=tab.dataset.person,page=tab.dataset.page;
+  document.querySelectorAll(`.person-tab[data-person="${id}"]`).forEach(el=>el.classList.toggle("active",el===tab));
+  document.querySelectorAll(`[data-content^="${id}-"]`).forEach(el=>el.classList.toggle("active",el.dataset.content===`${id}-${page}`));
+});
+
+document.getElementById("skillGrid").innerHTML=skills.map(s=>`
+  <div class="skill"><span class="skill-code">${s[0]}</span><span><b>${s[1]}</b><small>${s[2]}</small></span></div>`).join("");
+
+function renderChart(mode="second"){
+  const values=mode==="first"?avg1:mode==="percent"?high2:avg2;
+  document.getElementById("chart").innerHTML=skills.map((s,i)=>{
+    const width=mode==="percent"?values[i]:values[i]/5*100;
+    const value=mode==="percent"?`${values[i].toFixed(1)}%`:fmt(values[i]);
+    return `<div class="chart-row"><div class="chart-name">${s[1]}</div><div class="track"><div class="bar" style="width:${width}%"></div></div><div class="score">${value}</div></div>`;
+  }).join("");
+}
+renderChart();
+
+document.querySelectorAll(".result-btn").forEach(button=>button.addEventListener("click",()=>{
+  document.querySelectorAll(".result-btn").forEach(el=>el.classList.toggle("active",el===button));
+  renderChart(button.dataset.mode);
+}));
+
+document.getElementById("summary").innerHTML=skills.map((s,i)=>`
+  <tr><td>${s[0]} · ${s[1]}</td><td>${fmt(avg1[i])}</td><td>${fmt(avg2[i])}</td><td>${med2[i].toFixed(1)}</td><td>${high2[i].toFixed(1)}%</td><td>${high2[i]>=80?"Այո":"Ոչ"}</td></tr>`).join("");
+
+function renderRaw(phase){
+  const data=phase==="1"?phase1:phase2;
+  document.getElementById("rawTable").innerHTML=
+    `<thead><tr><th>Փորձագետ</th>${skills.map(s=>`<th>${s[0]}</th>`).join("")}</tr></thead>
+    <tbody>${data.map((row,i)=>`<tr><td>Փ${i+1}</td>${row.map(value=>`<td>${value}</td>`).join("")}</tr>`).join("")}</tbody>`;
+}
+renderRaw("1");
+
+document.querySelectorAll(".raw-btn").forEach(button=>button.addEventListener("click",()=>{
+  document.querySelectorAll(".raw-btn").forEach(el=>el.classList.toggle("active",el===button));
+  renderRaw(button.dataset.phase);
+}));
+
+let selectedCompany=0;
+const picker=document.getElementById("companyPicker");
+
+people.forEach((person,index)=>{
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="company-button"+(index===0?" active":"");
+  button.textContent=person.company;
+  button.addEventListener("click",()=>showRecommendation(index));
+  picker.appendChild(button);
+});
+
+function showRecommendation(index){
+  selectedCompany=(index+people.length)%people.length;
+  const person=people[selectedCompany];
+
+  document.querySelectorAll(".company-button").forEach((button,i)=>{
+    button.classList.toggle("active",i===selectedCompany);
+  });
+
+  document.getElementById("recImage").style.backgroundImage=`url("${person.image}")`;
+  document.getElementById("recCompanyLabel").textContent=person.company;
+  document.getElementById("recCompany").textContent=person.company;
+  document.getElementById("recParticipant").textContent=`Մասնակից՝ ${person.name}`;
+  document.getElementById("recRole").textContent=`Պաշտոն՝ ${person.role}`;
+  document.getElementById("recProposal").textContent=person.recommendation;
+  document.getElementById("recContext").textContent=person.recContext;
+  document.getElementById("recCount").textContent=`${selectedCompany+1} / ${people.length}`;
+
+  document.getElementById("recommendationCard").animate(
+    [{opacity:.65,transform:"translateY(5px)"},{opacity:1,transform:"translateY(0)"}],
+    {duration:240,easing:"ease-out"}
+  );
+}
+showRecommendation(0);
+
+document.getElementById("prevCompany").addEventListener("click",()=>showRecommendation(selectedCompany-1));
+document.getElementById("nextCompany").addEventListener("click",()=>showRecommendation(selectedCompany+1));
+
+document.getElementById("theme").addEventListener("click",()=>document.body.classList.toggle("light"));
+const fullscreenButton = document.getElementById("fullscreen");
+
+function updateFullscreenButton() {
+  const isFullscreen = Boolean(document.fullscreenElement);
+  fullscreenButton.textContent = isFullscreen ? "⛶" : "⛶";
+  fullscreenButton.setAttribute(
+    "aria-label",
+    isFullscreen ? "Դուրս գալ ամբողջ էկրանից" : "Միացնել ամբողջ էկրանով ցուցադրումը"
+  );
+  fullscreenButton.title = isFullscreen ? "Դուրս գալ ամբողջ էկրանից" : "Ամբողջ էկրան";
+}
+
+fullscreenButton.addEventListener("click", async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+    }
+  } catch (error) {
+    console.error("Ամբողջ էկրանով ցուցադրումը հասանելի չէ:", error);
+  }
+});
+
+document.addEventListener("fullscreenchange", updateFullscreenButton);
+updateFullscreenButton();
+document.getElementById("menu").addEventListener("click",()=>document.getElementById("nav").classList.toggle("open"));
+document.querySelectorAll(".nav a").forEach(link=>link.addEventListener("click",()=>document.getElementById("nav").classList.remove("open")));
+
+window.addEventListener("scroll",()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById("progress").style.width=(max>0?scrollY/max*100:0)+"%";
+});
+
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target);}
+}),{threshold:.1});
+document.querySelectorAll(".fade").forEach(el=>observer.observe(el));
+</script>
+
+<script></script></body></html>
